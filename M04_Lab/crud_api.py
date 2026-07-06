@@ -7,13 +7,6 @@ publisher
 """
 
 
-# import requests
-# import json
-
-
-# in terminal:
-# export FLASK_APP=crud_api.py
-# export FLASK_ENV=development
 
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
@@ -27,10 +20,13 @@ db = SQLAlchemy(app)
 
 class Book(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    book_name = db.Column(db.String(50), nullable=False)
+    book_name = db.Column(db.String(50), unique=True, nullable=False)
     author = db.Column(db.String(50), nullable=False)
     publisher = db.Column(db.String(50), nullable=False)
 
+    def __repr__(self):
+        return f"{self.book_name} - {self.author}"
+    
     def to_dict(self):
         return {
             "id": self.id,
